@@ -12,7 +12,7 @@
 	<artifactId>workshop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>workshop</name>
-	<description>Workshop system to buy products</description>
+	<description>Workshop system to manage products</description>
 	<url/>
 	<licenses>
 		<license/>
