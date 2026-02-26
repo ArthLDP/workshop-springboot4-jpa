@@ -1,12 +1,15 @@
 package com.springbootproject.workshop.config;
 
+import com.springbootproject.workshop.entities.Order;
 import com.springbootproject.workshop.entities.User;
+import com.springbootproject.workshop.repositories.OrderRepository;
 import com.springbootproject.workshop.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.time.Instant;
 import java.util.Arrays;
 
 @Configuration
@@ -15,11 +18,19 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     @Override
     public void run(String... args) throws Exception {
         User user1 = new User(null, "John", "john@email.com", "99999999", "123456");
         User user2 = new User(null, "Arthur", "arthur@email.com", "3333333", "123");
 
+        Order order1 = new Order(null, Instant.now(), user1);
+        Order order2 = new Order(null, Instant.now(), user2);
+        Order order3 = new Order(null, Instant.now(), user1);
+
         userRepository.saveAll(Arrays.asList(user1, user2));
+        orderRepository.saveAll(Arrays.asList(order1, order2, order3));
     }
 }
