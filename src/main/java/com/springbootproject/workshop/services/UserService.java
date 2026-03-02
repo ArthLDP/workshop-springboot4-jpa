@@ -2,9 +2,12 @@ package com.springbootproject.workshop.services;
 
 import com.springbootproject.workshop.entities.User;
 import com.springbootproject.workshop.repositories.UserRepository;
+import com.springbootproject.workshop.services.exceptions.DataBaseException;
 import com.springbootproject.workshop.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -33,7 +36,16 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        if (!userRepository.existsById(id)) {
+            throw new ResourceNotFoundException(id);
+        }
+
+        try {
+            userRepository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DataBaseException(e.getMessage());
+        }
     }
 
     public User update(Long id, User user) {
