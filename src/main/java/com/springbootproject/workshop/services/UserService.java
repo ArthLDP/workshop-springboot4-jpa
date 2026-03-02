@@ -2,6 +2,7 @@ package com.springbootproject.workshop.services;
 
 import com.springbootproject.workshop.entities.User;
 import com.springbootproject.workshop.repositories.UserRepository;
+import com.springbootproject.workshop.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class UserService {
         if (object.isPresent()) {
             return object.get();
         }
-        throw new EntityNotFoundException("User not found with id: " + id);
+        throw new ResourceNotFoundException(id);
     }
 
     public User insert(User user) {
